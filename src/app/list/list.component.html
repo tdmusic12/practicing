@@ -1,0 +1,64 @@
+<div class="container">
+
+
+    <div class="app-name-container">
+        <h1>TODO LIST</h1>
+    </div>
+
+    <app-time-greeting [notCompletedTasksCount]="notCompletedTasksCount"></app-time-greeting>
+    <hr>
+    <button class="btn btn-primary" (click)="openDialog()">Add New</button>
+
+    <hr>
+
+    <div class="filter-btn">
+        <button class="btn btn-secondary" (click)="filterTasks('all')">All Tasks ({{ allTasks }})</button>
+        <button class="btn btn-success" (click)="filterTasks('completed')">Completed ({{ completedTasksCount
+            }})</button>
+        <button class="btn btn-warning" (click)="filterTasks('notCompleted')">Active ({{ notCompletedTasksCount
+            }})</button>
+    </div>
+
+    <div class="task-list-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Task</th>
+                    <th scope="col">Date</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let t of filteredTasks; let i = index">
+                    <tr *ngIf="editingIndex !== i; else editRow">
+                        <td [ngClass]="{ 'completed': t.isCompleted }">{{ t.taskName }}</td>
+                        <td>{{ t.date }}</td>
+                        <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-danger btn-sm" (click)="onCheck(i)">Done</button>
+                            <button class="btn btn-danger btn-sm" (click)="onDelete(i)">Delete</button>
+                            <button class="btn btn-primary btn-sm" (click)="onEditPopup(t)">Edit</button>
+                        </div>
+                    </td>
+                    </tr>
+                    <ng-template #editRow>
+                        <tr class="edit-mode">
+                            <td>
+                                <input type="text" class="form-control" [(ngModel)]="t.taskName" required>
+                            </td>
+                            <td>
+                                <input type="date" class="form-control" [(ngModel)]="t.date">
+                            </td>
+                            <td></td>
+                            <td>
+                                <button class="btn btn-success btn-sm" (click)="onSaveEdit(t, i)">Save</button>
+                                <button class="btn btn-secondary btn-sm" (click)="onCancelEdit()">Cancel</button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+
+</div>

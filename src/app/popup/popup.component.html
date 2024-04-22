@@ -1,0 +1,14 @@
+<h2 mat-dialog-title class="popup-title">Today's Task</h2>
+<mat-dialog-content class="pop-up-container">
+  <form (ngSubmit)="onSubmit(taskForm)" #taskForm="ngForm">
+    <div class="form-group input-container">
+      <label for="task">Task</label>
+      <input type="text" class="form-control" id="task" placeholder="Enter task" ngModel name="task" required
+             (click)="toggleDatePicker()" autocomplete="off">
+      <input type="date" class="form-control" id="datePicker" [(ngModel)]="selectedDate" name="date" style="display: none;">
+      <small *ngIf="taskForm.invalid && taskForm.dirty" id="errorMessage" class="form-text text-danger">Required field</small>
+    </div>
+
+    <button [disabled]="taskForm.invalid" id="submitButton" type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</mat-dialog-content>
